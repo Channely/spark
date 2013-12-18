@@ -56,17 +56,18 @@ String fileExt(String file) {
   return index != -1 && index < file.length ? file.substring(index + 1) : null;
 }
 
-const Map<String,String> extensionAliases =
+const Map<String,String> _extensionAliases =
     const { 'htm' : 'html',
             'jpg' : 'jpeg' };
 
 /**
- * Returns a canonicalized file extension, or `"text"` or if there is no extension
+ * Returns a canonicalized file extension, or `"text"` or if there is no
+ * extension.
  */
 String canonicalFileExt(String fileName) {
   var ext = fileExt(fileName);
   if (ext == null) return 'text';
-  if (extensionAliases.containsKey(ext)) return extensionAliases[ext];
+  if (_extensionAliases.containsKey(ext)) return _extensionAliases[ext];
   return ext;
 }
 

@@ -47,13 +47,11 @@ abstract class PreferenceStore {
    * The semantics for encoding the object as a JSON string are the same as
    * those of the [JSON.encode] method.
    *
-   * If [:ifAbsent:] is provided, the returned value is used if there is no current
-   * value stored for the given key
+   * If [ifAbsent] is provided, the returned value is used if there is no
+   * current value stored for the given key
    */
   Future<dynamic> getJsonValue(String key,
       { reviver(var key, var value): null, dynamic ifAbsent() });
-
-
 
   /**
    * Set the value for the given key. The returned [Future] has the same value
@@ -62,13 +60,12 @@ abstract class PreferenceStore {
   Future<String> setValue(String key, String value);
 
   /**
-   * Sets the value encoded for the given key
-   * The semantics for encoding the value as a JSON object are the same as for
-   * the [JSON] converter.
-   * The returned future has the encoded representation of [value] on
-   * success.
+   * Sets the value encoded for the given key. The semantics for encoding the
+   * value as a JSON object are the same as for the [JSON] converter. The
+   * returned future has the encoded representation of [value] on success.
    */
-  Future<String> setJsonValue(String key, dynamic value, {dynamic toEncodable(var object) : null });
+  Future<String> setJsonValue(String key, dynamic value,
+                              {dynamic toEncodable(var object) : null });
 
   /**
    * Flush any unsaved changes to this [PreferenceStore].
@@ -83,9 +80,10 @@ abstract class _JsonStoreMixin {
   Future<String> setValue(String key, String value);
 
   /**
-   * Returns a preference stored as a JSON object
+   * Returns a preference stored as a JSON object.
    */
-  Future<dynamic> getJsonValue(String key, {reviver(var key, var value) : null, ifAbsent()}) {
+  Future<dynamic> getJsonValue(String key,
+      {reviver(var key, var value) : null, ifAbsent()}) {
     return getValue(key).then((value) {
       if (value == null) {
         if (ifAbsent != null) {
@@ -98,10 +96,11 @@ abstract class _JsonStoreMixin {
   }
 
   /**
-   * Sets a preference to the given value.
-   * The semantics of the encoding are the same as for the [JSON] object in `dart:convert`
+   * Sets a preference to the given value. The semantics of the encoding are the
+   * same as for the [JSON] object in `dart:convert`
    */
-  Future<String> setJsonValue(String key, dynamic value, {dynamic toEncodable(var object) : null }) {
+  Future<String> setJsonValue(String key, dynamic value,
+                              {dynamic toEncodable(var object) : null }) {
     var jsonString;
     try {
       jsonString = JSON.encode(value, toEncodable: toEncodable);
@@ -233,9 +232,9 @@ class PreferenceEvent {
   PreferenceEvent(this.store, this.key, this.value);
 
   /**
-   * Decodes value as if it were a stored JSON string using the specified [:reviver:]
-   * If [:ifAbsent:] is provided and the [value] is `null`, returns the result of
-   * calling the function.
+   * Decodes value as if it were a stored JSON string using the specified
+   * [reviver]. If [ifAbsent] is provided and the [value] is `null`, returns the
+   * result of calling the function.
    */
   valueAsJson({reviver(var key, var value): null, ifAbsent(): null }) {
     if (value == null && ifAbsent != null) {

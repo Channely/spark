@@ -42,7 +42,6 @@ abstract class Editor {
   void focus();
 }
 
-
 /**
  * Manage a list of open editors.
  */
@@ -354,6 +353,8 @@ class _EditorState {
     } else {
       Completer<_EditorState> completer = new Completer<_EditorState>();
       file.getContents().then((text) {
+        // TODO: write a wrapper around getting file based prefs
+        // TODO: ace specific pref defaults should be in ace.dart
         manager._prefStore.getJsonValue('fileTypePrefs/${canonicalFileExt(file.name)}',
                                         ifAbsent: () => {'useSoftTabs' : true, 'tabSize' : 2})
             .then((prefs) {
